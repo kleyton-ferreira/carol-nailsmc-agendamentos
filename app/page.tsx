@@ -61,7 +61,7 @@ const HomePage = async () => {
             <SummaryCardIcon>
               <ShoppingBasketIcon className="animate-pulse" />
             </SummaryCardIcon>
-            <SummaryCardTitle>Atendimento de clientes</SummaryCardTitle>
+            <SummaryCardTitle>Atendimentos</SummaryCardTitle>
             <SummaryCardValue> {totalProducts} </SummaryCardValue>
           </SummaryCard>
 
