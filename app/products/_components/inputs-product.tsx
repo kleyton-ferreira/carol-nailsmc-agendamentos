@@ -93,9 +93,9 @@ const InputsProduct = ({ forms }: ProductInputsProps) => {
                 placeholder="R$ 0,00"
                 error={!!forms.formState.errors.price}
                 className="h-9 text-sm sm:h-10"
-                value={field.value}
+                value={field.value ?? ""}
                 onValueChange={(values) => {
-                  field.onChange(values.floatValue ?? 0);
+                  field.onChange(values.floatValue);
                 }}
                 onBlur={field.onBlur}
                 name={field.name}

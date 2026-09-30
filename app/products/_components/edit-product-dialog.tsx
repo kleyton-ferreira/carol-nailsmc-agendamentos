@@ -56,7 +56,7 @@ const EditProductDialog = ({
     defaultValues: defaultValues ?? {
       nameClient: "",
       name: "",
-      price: 0,
+      price: undefined,
       stock: 1,
     },
   });
