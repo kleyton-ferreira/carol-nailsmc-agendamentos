@@ -2,12 +2,15 @@
 
 import {
   LayoutGridIcon,
+  LogOutIcon,
   PackageIcon,
   ShoppingBasketIcon,
   X,
 } from "lucide-react";
 import SidebarButton from "./ui/sidebar-button";
 import Image from "next/image";
+import LoginOpen from "./login-open";
+import { Button } from "./ui/button";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -39,7 +42,7 @@ const SidebarResponsive = ({ isOpen = false, onClose }: SidebarProps) => {
         <div className="group">
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 z-50 rounded-lg p-2 transition-colors duration-300 hover:bg-purple-500"
+            className="absolute right-4 top-5 z-50 rounded-lg p-2 transition-colors duration-300 hover:bg-purple-500"
             aria-label="Fechar menu"
             type="button"
           >
@@ -51,7 +54,10 @@ const SidebarResponsive = ({ isOpen = false, onClose }: SidebarProps) => {
         </div>
 
         {/* Mobile Profile Section */}
-        <div className="mb-6 flex items-center gap-3 px-6 pt-16">
+        <div className="relative top-5 flex cursor-pointer items-center gap-3 border-b border-purple-500 px-6 pb-4">
+          <LoginOpen />
+        </div>
+        <div className="mb-6 flex items-center gap-3 px-6 pt-12">
           <div className="relative h-20 w-20">
             <div className="animate-rotate_border absolute inset-0 rounded-full bg-gradient-to-r from-purple-300 to-gray-300"></div>
             <div className="absolute inset-2 flex items-center justify-center overflow-hidden rounded-full bg-white">
@@ -86,6 +92,18 @@ const SidebarResponsive = ({ isOpen = false, onClose }: SidebarProps) => {
             <ShoppingBasketIcon size={18} /> Serviços
           </SidebarButton>
         </nav>
+        <div className="relative -top-8 flex gap-3 px-7">
+          <Button
+            variant="ghost"
+            className="px-0 text-base hover:bg-transparent md:hidden"
+          >
+            <LogOutIcon
+              size={20}
+              className="box-content rounded-md bg-purple-500 p-1.5 text-white"
+            />
+            Encerrar sessão!
+          </Button>
+        </div>
       </div>
     </div>
   );

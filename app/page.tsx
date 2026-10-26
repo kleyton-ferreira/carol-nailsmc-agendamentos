@@ -15,6 +15,7 @@ import { getDashboard } from "./_data-access/dashboard/get-dashboard";
 import { formatBRL } from "./_lib/formatBRL";
 import RevenueChart from "./(dashboard)/revenue-chart";
 import MostSoldClientItem from "./(dashboard)/most-sold-client-item";
+import LoginOpen from "./_components/login-open";
 
 const HomePage = async () => {
   const {
@@ -29,13 +30,8 @@ const HomePage = async () => {
   return (
     <div className="flex h-full w-full flex-col">
       <div className="gap-4 border-b border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center md:px-8 md:py-4">
-        <div className="hidden min-w-0 flex-col gap-1 md:flex">
-          <h2 className="hidden text-base font-bold text-slate-800 md:block md:text-lg">
-            Faturamentos & Atendimentos
-          </h2>
-          <p className="hidden text-sm text-slate-500 sm:block">
-            Histórico de faturamentos e serviços
-          </p>
+        <div className="hidden md:block">
+          <LoginOpen />
         </div>
 
         <div className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-6">
