@@ -1,20 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+import { signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
 import { LogInIcon, LogOutIcon } from "lucide-react";
 import LoginDialog from "./login-dialog";
 
-interface LoginOpenProps {
-  isLoggedIn?: boolean;
-}
-
-const LoginOpen = ({ isLoggedIn = false }: LoginOpenProps) => {
+const LoginOpen = () => {
   const [loginOpen, setLoginOpen] = useState(false);
+  const { data: session, status } = useSession();
 
-  const handleLogout = () => {
-    // TODO: coloque aqui sua lógica de logout (ex: signOut())
-  };
+  const isLoggedIn = status === "authenticated";
+  const isLoading = status === "loading";
+
+  const handleLogout = () => signOut();
 
   return (
     <>
@@ -28,39 +27,55 @@ const LoginOpen = ({ isLoggedIn = false }: LoginOpenProps) => {
           </p>
         </div>
 
-        {/* Mobile: sempre o botão de login, sem lógica de sessão */}
-        <Button
-          variant="ghost"
-          className="px-0 text-base hover:bg-transparent md:hidden"
-          onClick={() => setLoginOpen(true)}
-        >
-          Faça seu login!
-          <LogInIcon
-            size={20}
-            className="box-content rounded-md bg-purple-500 p-1.5 text-white"
-          />
-        </Button>
+        {/* Mobile */}
+        {!isLoading &&
+          (isLoggedIn ? (
+            <Button
+              variant="ghost"
+              className="px-0 text-base hover:bg-transparent md:hidden"
+              onClick={handleLogout}
+            >
+              Encerrar sessão!
+              <LogOutIcon
+                size={20}
+                className="box-content rounded-md bg-purple-500 p-1.5 text-white"
+              />
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              className="px-0 text-base hover:bg-transparent md:hidden"
+              onClick={() => setLoginOpen(true)}
+            >
+              Faça seu login!
+              <LogInIcon
+                size={20}
+                className="box-content rounded-md bg-purple-500 p-1.5 text-white"
+              />
+            </Button>
+          ))}
 
-        {/* Desktop: alterna entre login e sair */}
-        {isLoggedIn ? (
-          <Button
-            variant="outline"
-            className="hidden md:inline-flex"
-            onClick={handleLogout}
-          >
-            Encerrar sessão!
-            <LogOutIcon />
-          </Button>
-        ) : (
-          <Button
-            variant="secondary"
-            className="hidden md:inline-flex"
-            onClick={() => setLoginOpen(true)}
-          >
-            Faça seu login!
-            <LogInIcon />
-          </Button>
-        )}
+        {/* Desktop */}
+        {!isLoading &&
+          (isLoggedIn ? (
+            <Button
+              variant="secondary"
+              className="hidden md:inline-flex"
+              onClick={handleLogout}
+            >
+              Encerrar sessão!
+              <LogOutIcon />
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              className="hidden md:inline-flex"
+              onClick={() => setLoginOpen(true)}
+            >
+              Faça seu login!
+              <LogInIcon />
+            </Button>
+          ))}
       </div>
 
       <LoginDialog loginOpen={loginOpen} setLoginOpen={setLoginOpen} />

@@ -5,6 +5,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import Layout from "./_components/app-layout";
 import Sidebar from "./_components/sidebar";
+import AuthProvider from "./_providers/auth";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -32,18 +33,20 @@ export default function RootLayout({
       <body
         className={`${sora.className} ${jetbrainsMono.className} antialiased`}
       >
-        <div className="flex gap-4">
-          <Sidebar />
-          <Layout title="Serviçoes & Clientes">{children}</Layout>
-        </div>
-        <Toaster
-          toastOptions={{
-            style: {
-              background: "#9333ea",
-              color: "#fff",
-            },
-          }}
-        />
+        <AuthProvider>
+          <div className="flex gap-4">
+            <Sidebar />
+            <Layout title="Serviçoes & Clientes">{children}</Layout>
+          </div>
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "#9333ea",
+                color: "#fff",
+              },
+            }}
+          />
+        </AuthProvider>
       </body>
     </html>
   );
