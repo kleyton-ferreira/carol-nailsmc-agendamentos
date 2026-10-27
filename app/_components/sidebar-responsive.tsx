@@ -9,8 +9,7 @@ import {
 import SidebarButton from "./ui/sidebar-button";
 import LoginOpen from "./login-open";
 import { useSession } from "next-auth/react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import SidebarLoading from "./sidebar-loading";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -19,15 +18,8 @@ interface SidebarProps {
 }
 
 const SidebarResponsive = ({ isOpen = false, onClose }: SidebarProps) => {
-  const { data } = useSession();
-
-  const initials =
-    data?.user?.name
-      ?.split(" ")
-      .map((n) => n[0])
-      .slice(0, 2)
-      .join("")
-      .toUpperCase() ?? "U";
+  const { data, status } = useSession();
+  const isAuthenticated = status === "authenticated";
 
   return (
     <div>
@@ -73,39 +65,15 @@ const SidebarResponsive = ({ isOpen = false, onClose }: SidebarProps) => {
           <LoginOpen />
         </div>
 
-        {data?.user ? (
-          <div className="mb-0 flex items-center gap-3 px-6 pt-8">
-            <div className="relative h-20 w-20 shrink-0">
-              <div className="animate-rotate_border absolute inset-0 rounded-full bg-gradient-to-r from-purple-300 to-gray-300" />
-              <div className="absolute inset-1 overflow-hidden rounded-full bg-white">
-                <Avatar className="h-full w-full">
-                  <AvatarImage
-                    src={data.user.image ?? undefined}
-                    alt={data.user.name ?? "Foto de perfil"}
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
-                  <AvatarFallback className="bg-purple-100 text-lg font-semibold text-purple-700">
-                    {initials}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-            </div>
-            <div className="min-w-0">
-              <h1 className="truncate text-sm text-slate-600">
-                {data.user.name}
-              </h1>
-              <p className="mt-1 truncate text-xs text-slate-500">
-                {data.user.email}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
+        {/* CONTA - GOOGLE - LOGGED IN */}
+        <SidebarLoading />
 
         {/* Mobile Navigation */}
-        <nav className="relative top-6 flex flex-1 flex-col gap-2 overflow-y-auto px-3 pb-6">
+        <nav
+          className={`relative flex flex-1 flex-col gap-2 overflow-y-auto px-3 pb-6 ${
+            isAuthenticated ? "top-3" : "top-7"
+          }`}
+        >
           <SidebarButton href="/" onClick={onClose}>
             <LayoutGridIcon size={18} /> Inicio
           </SidebarButton>
